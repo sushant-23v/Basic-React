@@ -1,11 +1,13 @@
+import { projectGoal } from '@/content/project-content';
+
 export function Footer() {
   return (
     <footer className="border-t border-line bg-surface/80">
-      <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
-        <p>Simple React boilerplate for reusable app generation.</p>
+      <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-muted sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+        <p className="max-w-2xl">{projectGoal}</p>
         <p>
-          Add routes in <code>src/pages</code> and shared logic in{' '}
-          <code>src/services</code>.
+          Keep routes in <code>src/pages</code> and sync structure changes in{' '}
+          <code>project-structure.json</code>.
         </p>
       </div>
     </footer>

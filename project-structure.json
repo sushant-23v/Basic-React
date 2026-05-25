@@ -1,17 +1,15 @@
 {
   "schemaVersion": "2.0.0",
   "name": "simple-react-boilerplate",
-  "goal": "Generate the same small generic React project in another repository without extra demo folders or sample feature modules.",
+  "goal": "Generate the same generic React project in another repository without extra demo folders or sample feature modules.",
   "stack": {
     "bundler": "Vite",
     "ui": "React",
     "styling": "Tailwind CSS",
-    "routing": "React Router with file-based pages",
-    "theme": "React Context",
-    "http": [
-      "fetch",
-      "axios"
-    ],
+    "routing": "React Router with Next-style file-system pages",
+    "theme": "React Context with shared theme style config",
+    "responsive": "Mobile-first layouts for phone, tablet, and desktop",
+    "http": ["fetch", "axios"],
     "errorHandling": "Error Boundary"
   },
   "rules": [
@@ -21,15 +19,74 @@
     "Place theme or other shared state in src/context.",
     "Place route files in src/pages.",
     "Place low-level HTTP helpers in src/services/http.js.",
-    "Add new folders only when the project has a real need for them."
+    "Add new folders/ alter existing folder when the project has a real need for them."
   ],
   "routing": {
     "sourceFolder": "src/pages",
-    "pattern": "Each .jsx file inside src/pages becomes a route.",
+    "pattern": "Each supported .jsx file inside src/pages becomes part of the route tree.",
     "specialFiles": {
       "index.jsx": "/",
-      "not-found.jsx": "*"
+      "layout.jsx": "Wraps descendant routes without changing the URL.",
+      "not-found.jsx": "*",
+      "[slug].jsx": ":slug",
+      "[...all].jsx": "*",
+      "(group)": "Route group folder ignored in the URL."
+    },
+    "features": [
+      "Nested folders create nested paths.",
+      "layout.jsx creates shared route wrappers for a folder tree.",
+      "[slug].jsx creates a dynamic route segment.",
+      "[...all].jsx creates a trailing catch-all route.",
+      "Folders wrapped in parentheses are ignored in the final URL.",
+      "Files or folders prefixed with an underscore are ignored by the router."
+    ]
+  },
+  "dummyData": {
+    "navigation": [
+      {
+        "label": "Overview",
+        "path": "/"
+      },
+      {
+        "label": "Docs",
+        "path": "/docs"
+      },
+      {
+        "label": "Sample",
+        "path": "/sample"
+      }
+    ],
+    "docsTopics": [
+      {
+        "slug": "routing",
+        "title": "Next-style file routing"
+      },
+      {
+        "slug": "mobile",
+        "title": "Responsive defaults"
+      },
+      {
+        "slug": "blueprint",
+        "title": "Project blueprint data"
+      }
+    ],
+    "sampleRoute": {
+      "path": "/sample",
+      "purpose": "Show how a simple route can consume theme-managed styles."
+    },
+    "themeStyles": {
+      "sourceFile": "src/theme/app-theme.js",
+      "usage": "Resolved theme styles are exposed from ThemeContext and consumed by pages and layout."
     }
+  },
+  "themeManagement": {
+    "provider": "src/context/ThemeContext.jsx",
+    "styleConfig": "src/theme/app-theme.js",
+    "behavior": [
+      "Stores the selected theme in localStorage.",
+      "Resolves system theme to light or dark mode.",
+      "Exposes themeStyles so UI surfaces can reuse centralized theme classes."
+    ]
   },
   "structure": {
     "rootFiles": [
@@ -42,15 +99,9 @@
       "README.md",
       "project-structure.json"
     ],
-    "public": [
-      "public/favicon.svg"
-    ],
+    "public": ["public/favicon.svg"],
     "src": {
-      "files": [
-        "src/App.jsx",
-        "src/index.css",
-        "src/main.jsx"
-      ],
+      "files": ["src/App.jsx", "src/index.css", "src/main.jsx"],
       "folders": {
         "components": {
           "purpose": "Shared shell and utility UI.",
@@ -62,31 +113,36 @@
             "src/components/ThemeToggle.jsx"
           ]
         },
+        "content": {
+          "purpose": "Shared dummy data and reusable boilerplate copy.",
+          "files": ["src/content/project-content.js"]
+        },
         "context": {
           "purpose": "Global React Context providers.",
-          "files": [
-            "src/context/ThemeContext.jsx"
-          ]
+          "files": ["src/context/ThemeContext.jsx"]
         },
         "pages": {
-          "purpose": "File-based routes.",
+          "purpose": "File-system routes with nested layouts and dynamic segments.",
           "files": [
+            "src/pages/docs/[slug].jsx",
+            "src/pages/docs/index.jsx",
+            "src/pages/docs/layout.jsx",
             "src/pages/index.jsx",
-            "src/pages/not-found.jsx"
+            "src/pages/not-found.jsx",
+            "src/pages/sample.jsx"
           ]
+        },
+        "theme": {
+          "purpose": "Centralized theme-managed style definitions for the app shell and pages.",
+          "files": ["src/theme/app-theme.js"]
         },
         "router": {
           "purpose": "Router setup and page-to-route generation.",
-          "files": [
-            "src/router/index.jsx",
-            "src/router/route-builder.jsx"
-          ]
+          "files": ["src/router/index.jsx", "src/router/route-builder.jsx"]
         },
         "services": {
           "purpose": "Shared HTTP helpers and low-level integrations.",
-          "files": [
-            "src/services/http.js"
-          ]
+          "files": ["src/services/http.js"]
         }
       }
     }
@@ -97,7 +153,6 @@
     "src/providers",
     "src/services/api",
     "src/pages/examples",
-    "src/pages/docs",
     "public/content"
   ]
 }
