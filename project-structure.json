@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "2.0.0",
+  "name": "simple-react-boilerplate",
+  "goal": "Generate the same small generic React project in another repository without extra demo folders or sample feature modules.",
+  "stack": {
+    "bundler": "Vite",
+    "ui": "React",
+    "styling": "Tailwind CSS",
+    "routing": "React Router with file-based pages",
+    "theme": "React Context",
+    "http": [
+      "fetch",
+      "axios"
+    ],
+    "errorHandling": "Error Boundary"
+  },
+  "rules": [
+    "Keep the folder structure shallow.",
+    "Do not add example pages, mock data folders, or feature-specific modules by default.",
+    "Place reusable shell UI in src/components.",
+    "Place theme or other shared state in src/context.",
+    "Place route files in src/pages.",
+    "Place low-level HTTP helpers in src/services/http.js.",
+    "Add new folders only when the project has a real need for them."
+  ],
+  "routing": {
+    "sourceFolder": "src/pages",
+    "pattern": "Each .jsx file inside src/pages becomes a route.",
+    "specialFiles": {
+      "index.jsx": "/",
+      "not-found.jsx": "*"
+    }
+  },
+  "structure": {
+    "rootFiles": [
+      "index.html",
+      "jsconfig.json",
+      "package.json",
+      "postcss.config.js",
+      "tailwind.config.js",
+      "vite.config.js",
+      "README.md",
+      "project-structure.json"
+    ],
+    "public": [
+      "public/favicon.svg"
+    ],
+    "src": {
+      "files": [
+        "src/App.jsx",
+        "src/index.css",
+        "src/main.jsx"
+      ],
+      "folders": {
+        "components": {
+          "purpose": "Shared shell and utility UI.",
+          "files": [
+            "src/components/ErrorBoundary.jsx",
+            "src/components/Footer.jsx",
+            "src/components/Header.jsx",
+            "src/components/Layout.jsx",
+            "src/components/ThemeToggle.jsx"
+          ]
+        },
+        "context": {
+          "purpose": "Global React Context providers.",
+          "files": [
+            "src/context/ThemeContext.jsx"
+          ]
+        },
+        "pages": {
+          "purpose": "File-based routes.",
+          "files": [
+            "src/pages/index.jsx",
+            "src/pages/not-found.jsx"
+          ]
+        },
+        "router": {
+          "purpose": "Router setup and page-to-route generation.",
+          "files": [
+            "src/router/index.jsx",
+            "src/router/route-builder.jsx"
+          ]
+        },
+        "services": {
+          "purpose": "Shared HTTP helpers and low-level integrations.",
+          "files": [
+            "src/services/http.js"
+          ]
+        }
+      }
+    }
+  },
+  "doNotGenerateByDefault": [
+    "src/data",
+    "src/hooks",
+    "src/providers",
+    "src/services/api",
+    "src/pages/examples",
+    "src/pages/docs",
+    "public/content"
+  ]
+}
